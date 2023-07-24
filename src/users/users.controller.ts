@@ -3,18 +3,16 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   Put,
   ParseUUIDPipe,
-  Res,
   HttpStatus,
+  HttpCode,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-user.dto';
-import { Response } from 'express';
 
 @Controller('user')
 export class UsersController {
@@ -31,24 +29,21 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseUUIDPipe) id: string, @Res() res: Response) {
-    const user = this.usersService.getById(id);
-    return res.status(HttpStatus.OK).json(user);
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
+    return this.usersService.getById(id);
   }
 
   @Put(':id')
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateUserDto: UpdatePasswordDto,
-    @Res() res: Response,
   ) {
-    const result = this.usersService.update(id, updateUserDto);
-    return res.status(HttpStatus.OK).json(result);
+    return this.usersService.update(id, updateUserDto);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseUUIDPipe) id: string, @Res() res: Response) {
+  @HttpCode(HttpStatus.NO_CONTENT)
+  remove(@Param('id', ParseUUIDPipe) id: string) {
     this.usersService.delete(id);
-    return res.status(HttpStatus.NO_CONTENT).send();
   }
 }
