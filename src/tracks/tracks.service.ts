@@ -4,23 +4,24 @@ import { UpdateTrackDto } from './dto/update-track.dto';
 import { Track } from './entities/track.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { NotFoundException } from '@nestjs/common/exceptions';
+import { TracksRepository } from './tracks.repository';
 
 @Injectable()
 export class TracksService {
-  private tracksDb: Track[] = [];
+  constructor(private readonly tracksRepository: TracksRepository) {}
 
   create(createTrackDto: CreateTrackDto) {
     const newTrack = { ...createTrackDto, id: uuidv4() };
-    this.tracksDb.push(newTrack);
+    this.tracksRepository.create(newTrack);
     return newTrack;
   }
 
   getAll() {
-    return this.tracksDb;
+    return this.tracksRepository.getAll();
   }
 
   getById(id: string) {
-    const track = this.tracksDb.find((track) => track.id === id);
+    const track = this.tracksRepository.getById(id);
     if (!track) {
       throw new NotFoundException();
     }
@@ -28,19 +29,20 @@ export class TracksService {
   }
 
   update(id: string, updateTrackDto: UpdateTrackDto) {
-    let track = this.tracksDb.find((track) => track.id === id);
+    const track = this.tracksRepository.getById(id);
     if (!track) {
       throw new NotFoundException();
     }
-    track = { ...track, ...updateTrackDto };
+    const newTrack = { ...track, ...updateTrackDto };
+    this.tracksRepository.update(id, newTrack);
     return track;
   }
 
   delete(id: string) {
-    const track = this.tracksDb.find((track) => track.id === id);
+    const track = this.tracksRepository.getById(id);
     if (!track) {
       throw new NotFoundException();
     }
-    this.tracksDb = this.tracksDb.filter((track) => track.id !== id);
+    this.tracksRepository.delete(id);
   }
 }
