@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
-import { Track } from './entities/track.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { TracksRepository } from './tracks.repository';
@@ -35,7 +34,7 @@ export class TracksService {
     }
     const newTrack = { ...track, ...updateTrackDto };
     this.tracksRepository.update(id, newTrack);
-    return track;
+    return newTrack;
   }
 
   delete(id: string) {
