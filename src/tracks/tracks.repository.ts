@@ -5,8 +5,8 @@ import { Injectable } from '@nestjs/common';
 export class TracksRepository {
   private tracksDb: Track[] = [];
 
-  create(user: Track) {
-    this.tracksDb.push(user);
+  create(track: Track) {
+    this.tracksDb.push(track);
   }
 
   getAll(): Track[] {
@@ -14,16 +14,16 @@ export class TracksRepository {
   }
 
   getById(id: string) {
-    const user = this.tracksDb.find((user) => user.id === id);
-    return user;
+    const track = this.tracksDb.find((track) => track.id === id);
+    return track;
   }
 
-  update(id: string, newUser: Track) {
-    const userIndex = this.tracksDb.findIndex((user) => user.id === id);
-    this.tracksDb[userIndex] = { ...newUser };
+  update(id: string, newTrack: Track) {
+    const trackIndex = this.tracksDb.findIndex((track) => track.id === id);
+    this.tracksDb[trackIndex] = { ...newTrack };
   }
 
   delete(id: string) {
-    this.tracksDb = this.tracksDb.filter((user) => user.id !== id);
+    this.tracksDb = this.tracksDb.filter((track) => track.id !== id);
   }
 }
