@@ -8,10 +8,11 @@ import { UpdatePasswordDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { CreateUserResponseDto as UserResponseDto } from './dto/user-response.dto';
+import { UsersRepository } from './users.repository';
 
 @Injectable()
 export class UsersService {
-  private usersDb: User[] = [];
+  constructor(private readonly usersRepository: UsersRepository) {}
 
   create(createUserDto: CreateUserDto): UserResponseDto {
     const dateNow = Date.now();
@@ -22,16 +23,18 @@ export class UsersService {
       createdAt: dateNow,
       updatedAt: dateNow,
     };
-    this.usersDb.push(user);
+    this.usersRepository.create(user);
     return this.mapToResponseDto(user);
   }
 
   getAll(): UserResponseDto[] {
-    return this.usersDb.map((user) => this.mapToResponseDto(user));
+    return this.usersRepository
+      .getAll()
+      .map((user) => this.mapToResponseDto(user));
   }
 
   getById(id: string) {
-    const user = this.usersDb.find((user) => user.id === id);
+    const user = this.usersRepository.getById(id);
     if (!user) {
       throw new NotFoundException();
     }
@@ -39,26 +42,26 @@ export class UsersService {
   }
 
   update(id: string, updateUserDto: UpdatePasswordDto) {
-    const userIndex = this.usersDb.findIndex((user) => user.id === id);
-    if (userIndex < 0) {
+    const user = this.usersRepository.getById(id);
+    if (!user) {
       throw new NotFoundException();
     }
-    const user = this.usersDb[userIndex];
     if (user.password !== updateUserDto.oldPassword) {
       throw new ForbiddenException();
     }
     user.password = updateUserDto.newPassword;
     user.version = user.version + 1;
     user.updatedAt = Date.now();
+    this.usersRepository.update(id, user);
     return this.mapToResponseDto(user);
   }
 
   delete(id: string) {
-    const user = this.usersDb.find((user) => user.id === id);
+    const user = this.usersRepository.getById(id);
     if (!user) {
       throw new NotFoundException();
     }
-    this.usersDb = this.usersDb.filter((user) => user.id !== id);
+    this.usersRepository.delete(id);
   }
 
   private mapToResponseDto = (user: User): UserResponseDto => {
