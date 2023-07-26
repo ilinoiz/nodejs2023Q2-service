@@ -6,6 +6,6 @@ import { DataAccessModule } from 'src/data-access/data-access.module';
 @Module({
   controllers: [AlbumsController],
   providers: [AlbumsService],
-  imports: [DataAccessModule]
+  imports: [DataAccessModule],
 })
 export class AlbumsModule {}
