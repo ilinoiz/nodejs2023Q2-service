@@ -30,4 +30,20 @@ export class TracksRepository {
   getMany(ids: string[]): Track[] {
     return this.tracksDb.filter((track) => ids.includes(track.id));
   }
+
+  deleteArtist(artistId: string) {
+    this.tracksDb.forEach((track) => {
+      if (track.artistId === artistId) {
+        track.artistId = null;
+      }
+    });
+  }
+  
+  deleteAlbum(albumId: string){
+    this.tracksDb.forEach((track) => {
+      if (track.albumId === albumId) {
+        track.albumId = null;
+      }
+    });
+  }
 }
