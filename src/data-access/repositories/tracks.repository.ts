@@ -38,8 +38,8 @@ export class TracksRepository {
       }
     });
   }
-  
-  deleteAlbum(albumId: string){
+
+  deleteAlbum(albumId: string) {
     this.tracksDb.forEach((track) => {
       if (track.albumId === albumId) {
         track.albumId = null;

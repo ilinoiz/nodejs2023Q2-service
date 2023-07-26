@@ -14,7 +14,7 @@ export class ArtistsService {
     private readonly artistsRepository: ArtistsRepository,
     private readonly favoritesRepository: FavoritesRepository,
     private readonly tracksRepository: TracksRepository,
-    private readonly albumsRepository: AlbumsRepository
+    private readonly albumsRepository: AlbumsRepository,
   ) {}
 
   create(createArtistDto: CreateArtistDto) {
@@ -53,6 +53,6 @@ export class ArtistsService {
     this.artistsRepository.delete(id);
     this.favoritesRepository.deleteArtist(id);
     this.albumsRepository.deleteArtist(id);
-    this.tracksRepository.deleteArtist(id)
+    this.tracksRepository.deleteArtist(id);
   }
 }

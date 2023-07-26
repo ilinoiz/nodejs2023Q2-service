@@ -3,7 +3,6 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class FavoritesRepository {
-  constructor() {}
   private favoritesDb: Favorite = {
     artists: [],
     tracks: [],

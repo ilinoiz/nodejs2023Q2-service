@@ -31,22 +31,21 @@ export class FavoritesController {
 
   @Delete('/track/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteTrack(@Param('id', ParseUUIDPipe) id: string){
+  deleteTrack(@Param('id', ParseUUIDPipe) id: string) {
     this.favoritesService.deleteTrack(id);
   }
 
   @Delete('/album/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteAlbum(@Param('id', ParseUUIDPipe) id: string){
+  deleteAlbum(@Param('id', ParseUUIDPipe) id: string) {
     this.favoritesService.deleteAlbum(id);
   }
 
   @Delete('/artist/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteArtist(@Param('id', ParseUUIDPipe) id: string){
+  deleteArtist(@Param('id', ParseUUIDPipe) id: string) {
     this.favoritesService.deleteArtist(id);
   }
-  
 
   @Get()
   findAll() {
