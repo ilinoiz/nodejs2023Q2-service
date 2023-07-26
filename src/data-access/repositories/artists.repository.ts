@@ -1,5 +1,5 @@
-import { Artist } from './entities/artist.entity';
 import { Injectable } from '@nestjs/common';
+import { Artist } from '../entities/artist.entity';
 
 @Injectable()
 export class ArtistsRepository {
@@ -25,5 +25,9 @@ export class ArtistsRepository {
 
   delete(id: string) {
     this.artistsDb = this.artistsDb.filter((artist) => artist.id !== id);
+  }
+
+  getMany(ids: string[]): Artist[] {
+    return this.artistsDb.filter((artist) => ids.includes(artist.id));
   }
 }

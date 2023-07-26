@@ -5,10 +5,10 @@ import {
 } from '@nestjs/common/exceptions';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
+import { User } from 'src/data-access/entities/user.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { CreateUserResponseDto as UserResponseDto } from './dto/user-response.dto';
-import { UsersRepository } from './users.repository';
+import { UsersRepository } from 'src/data-access/repositories/users.repository';
 
 @Injectable()
 export class UsersService {

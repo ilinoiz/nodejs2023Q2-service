@@ -1,4 +1,4 @@
-import { Track } from './entities/track.entity';
+import { Track } from '../entities/track.entity';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -25,5 +25,9 @@ export class TracksRepository {
 
   delete(id: string) {
     this.tracksDb = this.tracksDb.filter((track) => track.id !== id);
+  }
+
+  getMany(ids: string[]): Track[] {
+    return this.tracksDb.filter((track) => ids.includes(track.id));
   }
 }
