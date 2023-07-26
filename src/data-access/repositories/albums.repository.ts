@@ -31,11 +31,11 @@ export class AlbumsRepository {
     return this.albumsDb.filter((album) => ids.includes(album.id));
   }
 
-  // deleteArtist(artistId: string) {
-  //   this.albumsDb.forEach((album) => {
-  //     if (album.artistId === artistId) {
-  //       album.artistId = null;
-  //     }
-  //   });
-  // }
+  deleteArtist(artistId: string) {
+    this.albumsDb.forEach((album) => {
+      if (album.artistId === artistId) {
+        album.artistId = null;
+      }
+    });
+  }
 }

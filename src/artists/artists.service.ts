@@ -5,12 +5,16 @@ import { NotFoundException } from '@nestjs/common/exceptions';
 import { v4 as uuidv4 } from 'uuid';
 import { ArtistsRepository } from 'src/data-access/repositories/artists.repository';
 import { FavoritesRepository } from 'src/data-access/repositories/favorites.repository';
+import { TracksRepository } from 'src/data-access/repositories/tracks.repository';
+import { AlbumsRepository } from 'src/data-access/repositories/albums.repository';
 
 @Injectable()
 export class ArtistsService {
   constructor(
     private readonly artistsRepository: ArtistsRepository,
     private readonly favoritesRepository: FavoritesRepository,
+    private readonly tracksRepository: TracksRepository,
+    private readonly albumsRepository: AlbumsRepository
   ) {}
 
   create(createArtistDto: CreateArtistDto) {
@@ -48,5 +52,7 @@ export class ArtistsService {
     }
     this.artistsRepository.delete(id);
     this.favoritesRepository.deleteArtist(id);
+    this.albumsRepository.deleteArtist(id);
+    this.tracksRepository.deleteArtist(id)
   }
 }
