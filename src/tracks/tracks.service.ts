@@ -3,11 +3,15 @@ import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
 import { v4 as uuidv4 } from 'uuid';
 import { NotFoundException } from '@nestjs/common/exceptions';
-import { TracksRepository } from './tracks.repository';
+import { TracksRepository } from 'src/data-access/repositories/tracks.repository';
+import { FavoritesRepository } from 'src/data-access/repositories/favorites.repository';
 
 @Injectable()
 export class TracksService {
-  constructor(private readonly tracksRepository: TracksRepository) {}
+  constructor(
+    private readonly tracksRepository: TracksRepository,
+    private readonly favoritesRepository: FavoritesRepository,
+  ) {}
 
   create(createTrackDto: CreateTrackDto) {
     const newTrack = { ...createTrackDto, id: uuidv4() };
@@ -43,5 +47,6 @@ export class TracksService {
       throw new NotFoundException();
     }
     this.tracksRepository.delete(id);
+    this.favoritesRepository.deleteTrack(id);
   }
 }

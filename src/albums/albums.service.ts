@@ -1,12 +1,18 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
-import { AlbumsRepository } from './albums.repository';
 import { v4 as uuidv4 } from 'uuid';
+import { AlbumsRepository } from 'src/data-access/repositories/albums.repository';
+import { FavoritesRepository } from 'src/data-access/repositories/favorites.repository';
+import { ArtistsRepository } from 'src/data-access/repositories/artists.repository';
 
 @Injectable()
 export class AlbumsService {
-  constructor(private readonly albumsRepository: AlbumsRepository) {}
+  constructor(
+    private readonly albumsRepository: AlbumsRepository,
+    private readonly favoritesRepository: FavoritesRepository,
+  ) //private readonly artistsRepository: ArtistsRepository,
+  {}
 
   create(createAlbumDto: CreateAlbumDto) {
     const newAlbum = { ...createAlbumDto, id: uuidv4() };
@@ -42,5 +48,7 @@ export class AlbumsService {
       throw new NotFoundException();
     }
     this.albumsRepository.delete(id);
+    this.favoritesRepository.deleteAlbum(id);
+    // this.albumsRepository.deleteArtist(id);
   }
 }

@@ -1,5 +1,5 @@
-import { Album } from './entities/album.entity';
 import { Injectable } from '@nestjs/common';
+import { Album } from '../entities/album.entity';
 
 @Injectable()
 export class AlbumsRepository {
@@ -26,4 +26,16 @@ export class AlbumsRepository {
   delete(id: string) {
     this.albumsDb = this.albumsDb.filter((album) => album.id !== id);
   }
+
+  getMany(ids: string[]): Album[] {
+    return this.albumsDb.filter((album) => ids.includes(album.id));
+  }
+
+  // deleteArtist(artistId: string) {
+  //   this.albumsDb.forEach((album) => {
+  //     if (album.artistId === artistId) {
+  //       album.artistId = null;
+  //     }
+  //   });
+  // }
 }

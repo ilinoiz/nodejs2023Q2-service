@@ -1,13 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
-import { ArtistsRepository } from './artists.repository';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { v4 as uuidv4 } from 'uuid';
+import { ArtistsRepository } from 'src/data-access/repositories/artists.repository';
+import { FavoritesRepository } from 'src/data-access/repositories/favorites.repository';
 
 @Injectable()
 export class ArtistsService {
-  constructor(private readonly artistsRepository: ArtistsRepository) {}
+  constructor(
+    private readonly artistsRepository: ArtistsRepository,
+    private readonly favoritesRepository: FavoritesRepository,
+  ) {}
 
   create(createArtistDto: CreateArtistDto) {
     const newArtist = { ...createArtistDto, id: uuidv4() };
@@ -43,5 +47,6 @@ export class ArtistsService {
       throw new NotFoundException();
     }
     this.artistsRepository.delete(id);
+    this.favoritesRepository.deleteArtist(id);
   }
 }
