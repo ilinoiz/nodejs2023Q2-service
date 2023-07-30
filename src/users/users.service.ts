@@ -9,10 +9,16 @@ import { User } from 'src/data-access/entities/user.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { CreateUserResponseDto as UserResponseDto } from './dto/user-response.dto';
 import { UsersRepository } from 'src/data-access/repositories/users.repository';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(
+    private readonly usersRepository: UsersRepository,
+    @InjectRepository(User)
+    private postgresRepository: Repository<User>,
+  ) {}
 
   create(createUserDto: CreateUserDto): UserResponseDto {
     const dateNow = Date.now();
@@ -24,6 +30,7 @@ export class UsersService {
       updatedAt: dateNow,
     };
     this.usersRepository.create(user);
+    this.postgresRepository.create(user);
     return this.mapToResponseDto(user);
   }
 
