@@ -1,0 +1,716 @@
+{
+	"info": {
+		"_postman_id": "fb6ec8ff-7fe8-4dd5-a379-dcba77b09efc",
+		"name": "Home library service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13848213"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/user/5c73e086-0f2c-4532-b44f-527a883cefaf",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"user",
+								"5c73e086-0f2c-4532-b44f-527a883cefaf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/user/5c73e086-0f2c-4532-b44f-527a883cefaf",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"user",
+								"5c73e086-0f2c-4532-b44f-527a883cefaf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldPassword\": \"admin\",\r\n    \"newPassword\": \"12345\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:4000/user/e11e748e-40aa-4b37-8d01-e1d9577c082b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"user",
+								"e11e748e-40aa-4b37-8d01-e1d9577c082b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"login\": \"admin\",\r\n    \"password\": \"admin\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:4000/user/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tracks",
+			"item": [
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/track/102218b0-85bb-4a56-992b-4d0c35afe6c7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"track",
+								"102218b0-85bb-4a56-992b-4d0c35afe6c7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/track/102218b0-85bb-4a56-992b-4d0c35afe6c7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"track",
+								"102218b0-85bb-4a56-992b-4d0c35afe6c7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Alen\",\r\n    \"duration\": 1,\r\n    \"artistId\": \"123\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:4000/track/032f3c8c-18b1-4e12-b7ad-f0d70e7c9632",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"track",
+								"032f3c8c-18b1-4e12-b7ad-f0d70e7c9632"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Alen\",\r\n    \"duration\": 1\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:4000/track/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"track",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/track",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"track"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Artists",
+			"item": [
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/artist/dfbc184e-c8c2-4ff1-8572-ec9c73d6e179",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"artist",
+								"dfbc184e-c8c2-4ff1-8572-ec9c73d6e179"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/artist/102218b0-85bb-4a56-992b-4d0c35afe6c7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"artist",
+								"102218b0-85bb-4a56-992b-4d0c35afe6c7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Alen\",\r\n    \"grammy\": false\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:4000/artist/dfbc184e-c8c2-4ff1-8572-ec9c73d6e179",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"artist",
+								"dfbc184e-c8c2-4ff1-8572-ec9c73d6e179"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Alen\",\r\n    \"grammy\": false\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:4000/artist/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"artist",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/artist",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"artist"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Albums",
+			"item": [
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/album/2f4056e9-7971-4561-ac31-bbb6e9b61167",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"album",
+								"2f4056e9-7971-4561-ac31-bbb6e9b61167"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/album/2f4056e9-7971-4561-ac31-bbb6e9b61167",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"album",
+								"2f4056e9-7971-4561-ac31-bbb6e9b61167"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"new\",\r\n    \"year\": 2030\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:4000/album/2f4056e9-7971-4561-ac31-bbb6e9b61167",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"album",
+								"2f4056e9-7971-4561-ac31-bbb6e9b61167"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"year\": 2010,\r\n    \"name\": \"name\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:4000/album/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"album",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/album",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"album"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Favorites",
+			"item": [
+				{
+					"name": "Add Track",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:4000/favs/track/05b0e6ea-2fa7-4169-bfdc-8db53393d7c8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"favs",
+								"track",
+								"05b0e6ea-2fa7-4169-bfdc-8db53393d7c8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Track",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:4000/favs/track/a13300d7-ea31-4bb0-bfd0-6f7e4ba96e34",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"favs",
+								"track",
+								"a13300d7-ea31-4bb0-bfd0-6f7e4ba96e34"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Artist",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:4000/favs/artist/8eeb9507-cb24-436b-bbde-175787a5ef3c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"favs",
+								"artist",
+								"8eeb9507-cb24-436b-bbde-175787a5ef3c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Artist",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:4000/favs/artist/8eeb9507-cb24-436b-bbde-175787a5ef3c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"favs",
+								"artist",
+								"8eeb9507-cb24-436b-bbde-175787a5ef3c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Album",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:4000/favs/album/bdc69888-e8c8-4c6e-9a6b-ebe625efb457",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"favs",
+								"album",
+								"bdc69888-e8c8-4c6e-9a6b-ebe625efb457"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Album",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:4000/favs/album/bdc69888-e8c8-4c6e-9a6b-ebe625efb457",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"favs",
+								"album",
+								"bdc69888-e8c8-4c6e-9a6b-ebe625efb457"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/favs",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"favs"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
