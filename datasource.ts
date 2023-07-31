@@ -1,4 +1,5 @@
-import { PostRefactoring1690747998280 } from './1690747998280-PostRefactoring';
+
+import { InitialMigration1690751936913 } from './1690751936913-InitialMigration';
 import { User } from './src/data-access/entities/user.entity';
 import { DataSource } from 'typeorm';
 
@@ -11,7 +12,7 @@ export const AppDataSource = new DataSource({
   database: 'hls',
   entities: [User],
   synchronize: true,
-  migrations: [PostRefactoring1690747998280]
+  migrations: [InitialMigration1690751936913]
 });
 
 AppDataSource.initialize()

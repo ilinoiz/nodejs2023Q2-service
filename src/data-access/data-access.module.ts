@@ -6,7 +6,6 @@ import { ArtistsRepository } from './repositories/artists.repository';
 import { UsersRepository } from './repositories/users.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-import { PostRefactoring1690747998280 } from '../../1690747998280-PostRefactoring';
 
 @Module({
   imports: [
@@ -19,7 +18,7 @@ import { PostRefactoring1690747998280 } from '../../1690747998280-PostRefactorin
       database: 'hls',
       entities: [User],
       synchronize: true,
-      migrations: [PostRefactoring1690747998280],
+      migrations: [],
     }),
   ],
   providers: [

@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common/exceptions';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-user.dto';
-import { User } from 'src/data-access/entities/user.entity';
+import { User } from '../data-access/entities/user.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { CreateUserResponseDto as UserResponseDto } from './dto/user-response.dto';
 import { UsersRepository } from 'src/data-access/repositories/users.repository';
@@ -20,17 +20,17 @@ export class UsersService {
     private postgresRepository: Repository<User>,
   ) {}
 
-  create(createUserDto: CreateUserDto): UserResponseDto {
-    const dateNow = Date.now();
+  async create(createUserDto: CreateUserDto): Promise<UserResponseDto> {
+    const dateNow = new Date().toISOString();
     const user: User = {
       ...createUserDto,
       version: 1,
-      id: uuidv4(),
+      // id: uuidv4(),
       createdAt: dateNow,
       updatedAt: dateNow,
     };
     this.usersRepository.create(user);
-    this.postgresRepository.create(user);
+    await this.postgresRepository.insert(user);
     return this.mapToResponseDto(user);
   }
 
@@ -58,7 +58,7 @@ export class UsersService {
     }
     user.password = updateUserDto.newPassword;
     user.version = user.version + 1;
-    user.updatedAt = Date.now();
+    // user.updatedAt = Date.now();
     this.usersRepository.update(id, user);
     return this.mapToResponseDto(user);
   }

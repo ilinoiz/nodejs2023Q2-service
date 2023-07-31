@@ -1,7 +1,7 @@
 export class CreateUserResponseDto {
-  id: string;
+  id?: string;
   login: string;
   version: number;
-  createdAt: number;
-  updatedAt: number;
+  createdAt: string;
+  updatedAt: string;
 }
