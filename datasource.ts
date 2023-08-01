@@ -1,6 +1,3 @@
-
-import { InitialMigration1690751936913 } from './1690751936913-InitialMigration';
-import { User } from './src/data-access/entities/user.entity';
 import { DataSource } from 'typeorm';
 
 export const AppDataSource = new DataSource({
@@ -10,9 +7,9 @@ export const AppDataSource = new DataSource({
   username: 'myuser',
   password: 'mypassword',
   database: 'hls',
-  entities: [User],
+  entities: ['src/data-access/entities/*.ts'],
   synchronize: true,
-  migrations: [InitialMigration1690751936913]
+  migrations: ['migrations/*.ts']
 });
 
 AppDataSource.initialize()

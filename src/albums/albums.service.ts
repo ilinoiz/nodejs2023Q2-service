@@ -2,53 +2,70 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
 import { v4 as uuidv4 } from 'uuid';
-import { AlbumsRepository } from 'src/data-access/repositories/albums.repository';
-import { FavoritesRepository } from 'src/data-access/repositories/favorites.repository';
-import { TracksRepository } from 'src/data-access/repositories/tracks.repository';
+import { Album } from 'src/data-access/entities/album.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { AlbumResponseDto } from './dto/album-response.dto';
 
 @Injectable()
 export class AlbumsService {
   constructor(
-    private readonly albumsRepository: AlbumsRepository,
-    private readonly favoritesRepository: FavoritesRepository,
-    private readonly tracksRepository: TracksRepository,
+    @InjectRepository(Album)
+    private albumsRepository: Repository<Album>,
   ) {}
 
-  create(createAlbumDto: CreateAlbumDto) {
-    const newAlbum = { ...createAlbumDto, id: uuidv4() };
-    this.albumsRepository.create(newAlbum);
-    return newAlbum;
+  async create(createAlbumDto: CreateAlbumDto): Promise<AlbumResponseDto> {
+    // const newAlbum = { ...createAlbumDto, id: uuidv4() };
+    const result = await this.albumsRepository.insert(createAlbumDto);
+    const responsedDto: AlbumResponseDto = {
+      ...createAlbumDto,
+      id: result.raw[0].id,
+    };
+    return responsedDto;
   }
 
-  getAll() {
-    return this.albumsRepository.getAll();
+  async getAll(): Promise<AlbumResponseDto[]> {
+    const albums = await this.albumsRepository.find();
+    return albums.map((artist) => this.mapToResponseDto(artist));
   }
 
-  getById(id: string) {
-    const album = this.albumsRepository.getById(id);
+  async getById(id: string): Promise<AlbumResponseDto> {
+    const album = await this.albumsRepository.findOneBy({ id });
     if (!album) {
       throw new NotFoundException();
     }
-    return album;
+    return this.mapToResponseDto(album);
   }
 
-  update(id: string, updateAlbumDto: UpdateAlbumDto) {
-    const album = this.albumsRepository.getById(id);
+  async update(
+    id: string,
+    updateAlbumDto: UpdateAlbumDto,
+  ): Promise<AlbumResponseDto> {
+    const album = await this.albumsRepository.findOneBy({ id });
     if (!album) {
       throw new NotFoundException();
     }
     const newAlbum = { ...album, ...updateAlbumDto };
-    this.albumsRepository.update(id, newAlbum);
-    return newAlbum;
+    await this.albumsRepository.update(id, newAlbum);
+    return this.mapToResponseDto(newAlbum);
   }
 
-  delete(id: string) {
-    const album = this.albumsRepository.getById(id);
+  async delete(id: string): Promise<void> {
+    const album = await this.albumsRepository.findOneBy({ id });
     if (!album) {
       throw new NotFoundException();
     }
-    this.albumsRepository.delete(id);
-    this.favoritesRepository.deleteAlbum(id);
-    this.tracksRepository.deleteAlbum(id);
+    await this.albumsRepository.delete(id);
   }
+
+  private mapToResponseDto = (album: Album, id?: string): AlbumResponseDto => {
+    const { name, artistId, year } = album;
+    const mappedAlbum: AlbumResponseDto = {
+      id: id || album.id,
+      name,
+      artistId,
+      year,
+    };
+    return mappedAlbum;
+  };
 }

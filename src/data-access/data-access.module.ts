@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
-import { FavoritesRepository } from './repositories/favorites.repository';
-import { AlbumsRepository } from './repositories/albums.repository';
-import { TracksRepository } from './repositories/tracks.repository';
-import { ArtistsRepository } from './repositories/artists.repository';
-import { UsersRepository } from './repositories/users.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
+import { Artist } from './entities/artist.entity';
+import { Favorite } from './entities/favorite.entity';
+import { Track } from './entities/track.entity';
+import { Album } from './entities/album.entity';
 
 @Module({
   imports: [
@@ -16,24 +15,14 @@ import { User } from './entities/user.entity';
       username: 'myuser',
       password: 'mypassword',
       database: 'hls',
-      entities: [User],
+      // entities: ['src/data-access/entities/*.ts'],
+      entities: [User, Artist, Favorite, Track, Album],
       synchronize: true,
-      migrations: [],
+      logging: false
+      // migrations: ['migrations/*.ts']
     }),
   ],
-  providers: [
-    FavoritesRepository,
-    AlbumsRepository,
-    TracksRepository,
-    ArtistsRepository,
-    UsersRepository,
-  ],
-  exports: [
-    FavoritesRepository,
-    AlbumsRepository,
-    TracksRepository,
-    ArtistsRepository,
-    UsersRepository,
-  ],
+  providers: [],
+  exports: [],
 })
 export class DataAccessModule {}
