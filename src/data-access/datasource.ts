@@ -5,7 +5,7 @@ export const AppDataSource = new DataSource({
   ...DataBaseOptions,
   entities: ['src/data-access/entities/*.ts'],
   synchronize: true,
-  migrations: ['migrations/*.ts'],
+  migrations: ['src/data-access/migrations/*.ts'],
 });
 
 AppDataSource.initialize()

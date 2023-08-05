@@ -1,43 +1,43 @@
 version: '3'
 services:
   api:
+    container_name: api
     build:
-      context: ./ # Set the build context to the 'api' directory
+      context: ./
       dockerfile: Dockerfile.api
+    restart: on-failure
+    image: home-library-service-api:latest
     ports:
-      - '4000:4000' # Map the host's port 3000 to the container's port 3000
+      - '4000:4000'
     depends_on:
-      - db # Depend on the db service to ensure it starts first
+      - db
     networks:
-      - my_custom_bridge
+      - home-library-service
+    volumes:
+      - ./src:/app/src
     environment:
       - DB_HOST=db
-    # environment:
-    #   - DATABASE_URL=postgres://postgres:mysecretpassword@db:5432/mydb # Adjust this connection string as needed
-
   db:
+    container_name: database
     build:
-      context: ./  # Set the build context to the 'db' directory
+      context: ./
       dockerfile: Dockerfile.db
+    image: home-library-service-db:latest
     ports:
       - '5432:5432'
     networks:
-      - my_custom_bridge
+      - home-library-service
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - postgres_logs:/var/log/postgresql
-#     environment:
-#       - POSTGRES_USER=postgres
-#       - POSTGRES_PASSWORD=mysecretpassword
-#       - POSTGRES_DB=mydb
-#     volumes:
-#       - db-data:/var/lib/postgresql/data
+    restart: on-failure
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
 
-# volumes:
-#   db-data:
 networks:
-  my_custom_bridge:
-    external: true
+  home-library-service:
 
 volumes:
   postgres_data:

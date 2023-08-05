@@ -6,19 +6,16 @@ import { Favorite } from './entities/favorite.entity';
 import { Track } from './entities/track.entity';
 import { Album } from './entities/album.entity';
 import { ConfigModule } from '@nestjs/config';
-import { DataBaseOptions } from 'src/ormconfig';
+import { DataBaseOptions } from './ormconfig';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       ...DataBaseOptions,
-      // entities: ['src/data-access/entities/*.ts'],
       entities: [User, Artist, Favorite, Track, Album],
       synchronize: true,
       logging: false,
-
-      // migrations: ['migrations/*.ts']
     }),
   ],
   providers: [],

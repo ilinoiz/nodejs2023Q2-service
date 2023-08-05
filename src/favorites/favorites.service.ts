@@ -128,9 +128,9 @@ export class FavoritesService {
 
   private mapToResponseDto = (favorite: Favorite): FavoritesResponseDto => {
     const mappedFavorite: FavoritesResponseDto = {
-      albums: favorite.albums || [],
-      artists: favorite.artists || [],
-      tracks: favorite.tracks || [],
+      albums: favorite?.albums || [],
+      artists: favorite?.artists || [],
+      tracks: favorite?.tracks || [],
     };
     return mappedFavorite;
   };

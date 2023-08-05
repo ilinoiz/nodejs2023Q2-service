@@ -19,7 +19,9 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "typeorm": "typeorm-ts-node-esm"
+    "typeorm": "typeorm-ts-node-esm",
+    "db:migrations:apply" :"npm run typeorm migration:run -- -d src/data-access/datasource.ts",
+    "db:migrations:generate" :"npm run typeorm migration:generate -- src/data-access/migrations/InitialMigration -d src/data-access/datasource.ts"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
