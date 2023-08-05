@@ -1,15 +1,11 @@
 import { DataSource } from 'typeorm';
+import { DataBaseOptions } from './ormconfig';
 
 export const AppDataSource = new DataSource({
-  type: 'postgres',
-  host: 'localhost',
-  port: 5430,
-  username: 'myuser',
-  password: 'mypassword',
-  database: 'hls',
+  ...DataBaseOptions,
   entities: ['src/data-access/entities/*.ts'],
   synchronize: true,
-  migrations: ['migrations/*.ts']
+  migrations: ['migrations/*.ts'],
 });
 
 AppDataSource.initialize()

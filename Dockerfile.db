@@ -11,4 +11,11 @@ ENV POSTGRES_DB=hls
 # ENV POSTGRES_PORT=...
 
 # Expose the PostgreSQL default port (5432)
+
+# # Mount the volume for PostgreSQL data to the container's data directory
+# VOLUME /var/lib/postgresql/data
+
+# # Mount the volume for PostgreSQL logs to the container's log directory
+# VOLUME /var/log/postgresql
+
 EXPOSE 5432

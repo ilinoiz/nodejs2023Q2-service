@@ -5,20 +5,19 @@ import { Artist } from './entities/artist.entity';
 import { Favorite } from './entities/favorite.entity';
 import { Track } from './entities/track.entity';
 import { Album } from './entities/album.entity';
+import { ConfigModule } from '@nestjs/config';
+import { DataBaseOptions } from 'src/ormconfig';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5430,
-      username: 'myuser',
-      password: 'mypassword',
-      database: 'hls',
+      ...DataBaseOptions,
       // entities: ['src/data-access/entities/*.ts'],
       entities: [User, Artist, Favorite, Track, Album],
       synchronize: true,
-      logging: false
+      logging: false,
+
       // migrations: ['migrations/*.ts']
     }),
   ],

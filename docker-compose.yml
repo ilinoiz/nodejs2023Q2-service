@@ -1,0 +1,44 @@
+version: '3'
+services:
+  api:
+    build:
+      context: ./ # Set the build context to the 'api' directory
+      dockerfile: Dockerfile.api
+    ports:
+      - '4000:4000' # Map the host's port 3000 to the container's port 3000
+    depends_on:
+      - db # Depend on the db service to ensure it starts first
+    networks:
+      - my_custom_bridge
+    environment:
+      - DB_HOST=db
+    # environment:
+    #   - DATABASE_URL=postgres://postgres:mysecretpassword@db:5432/mydb # Adjust this connection string as needed
+
+  db:
+    build:
+      context: ./  # Set the build context to the 'db' directory
+      dockerfile: Dockerfile.db
+    ports:
+      - '5432:5432'
+    networks:
+      - my_custom_bridge
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - postgres_logs:/var/log/postgresql
+#     environment:
+#       - POSTGRES_USER=postgres
+#       - POSTGRES_PASSWORD=mysecretpassword
+#       - POSTGRES_DB=mydb
+#     volumes:
+#       - db-data:/var/lib/postgresql/data
+
+# volumes:
+#   db-data:
+networks:
+  my_custom_bridge:
+    external: true
+
+volumes:
+  postgres_data:
+  postgres_logs:

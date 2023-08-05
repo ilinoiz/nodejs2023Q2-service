@@ -3,7 +3,7 @@ import {
   UnprocessableEntityException,
   NotFoundException,
 } from '@nestjs/common';
-import { FavoritesResponse } from './dto/favorites.response.dto';
+import { FavoritesResponseDto } from './dto/favorites.response.dto';
 import { Favorite } from 'src/data-access/entities/favorite.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -80,7 +80,7 @@ export class FavoritesService {
 
   async deleteTrack(id: string): Promise<void> {
     const favorite = await this.getFavorite();
-    const track = favorite.tracks.find((t) => t.id === id);
+    const track = favorite?.tracks.find((t) => t.id === id);
     if (!track) {
       throw new NotFoundException();
     }
@@ -90,7 +90,7 @@ export class FavoritesService {
 
   async deleteAlbum(id: string): Promise<void> {
     const favorite = await this.getFavorite();
-    const album = favorite.albums.find((t) => t.id === id);
+    const album = favorite?.albums.find((t) => t.id === id);
     if (!album) {
       throw new NotFoundException();
     }
@@ -100,7 +100,7 @@ export class FavoritesService {
 
   async deleteArtist(id: string): Promise<void> {
     const favorite = await this.getFavorite();
-    const artist = favorite.artists.find((t) => t.id === id);
+    const artist = favorite?.artists.find((t) => t.id === id);
     if (!artist) {
       throw new NotFoundException();
     }
@@ -109,17 +109,8 @@ export class FavoritesService {
   }
 
   async getAll() {
-    // const favorites = await this.favoritesRepository.find({});
-    // const response: FavoritesResponse = {
-    //   albums: [],
-    //   artists: [],
-    //   tracks: [],
-    // };
-    // response.albums = await this.albumsRepository.find();
-    // response.tracks = await this.tracksRepository.find();
-    // response.artists = await this.artistsRepository.find();
-    // return response;
-    return this.getFavorite();
+    const result = await this.getFavorite();
+    return this.mapToResponseDto(result);
   }
 
   private async getFavorite(): Promise<Favorite> {
@@ -134,4 +125,13 @@ export class FavoritesService {
 
     return favorite;
   }
+
+  private mapToResponseDto = (favorite: Favorite): FavoritesResponseDto => {
+    const mappedFavorite: FavoritesResponseDto = {
+      albums: favorite.albums || [],
+      artists: favorite.artists || [],
+      tracks: favorite.tracks || [],
+    };
+    return mappedFavorite;
+  };
 }
