@@ -16,7 +16,6 @@ export class ArtistsService {
   ) {}
 
   async create(createArtistDto: CreateArtistDto): Promise<ArtistResponseDto> {
-    // const newArtist = { ...createArtistDto, id: uuidv4() };
     const result = await this.artistsRepository.insert(createArtistDto);
     const responsedDto: ArtistResponseDto = {
       ...createArtistDto,

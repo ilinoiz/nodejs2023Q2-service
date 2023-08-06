@@ -16,7 +16,6 @@ export class TracksService {
   ) {}
 
   async create(createTrackDto: CreateTrackDto): Promise<TrackResponseDto> {
-    // const newTrack = { ...createTrackDto, id: uuidv4() };
     const result = await this.tracksRepository.insert(createTrackDto);
     const responsedDto: TrackResponseDto = {
       ...createTrackDto,

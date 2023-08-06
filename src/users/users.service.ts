@@ -23,7 +23,6 @@ export class UsersService {
     const user: User = {
       ...createUserDto,
       version: 1,
-      // id: uuidv4(),
       createdAt: dateNow,
       updatedAt: dateNow,
     };

@@ -15,7 +15,6 @@ export class AlbumsService {
   ) {}
 
   async create(createAlbumDto: CreateAlbumDto): Promise<AlbumResponseDto> {
-    // const newAlbum = { ...createAlbumDto, id: uuidv4() };
     const result = await this.albumsRepository.insert(createAlbumDto);
     const responsedDto: AlbumResponseDto = {
       ...createAlbumDto,
