@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
 import { NotFoundException } from '@nestjs/common/exceptions';
-import { v4 as uuidv4 } from 'uuid';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Artist } from 'src/data-access/entities/artist.entity';
 import { Repository } from 'typeorm';

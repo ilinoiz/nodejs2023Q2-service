@@ -1,11 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Artist } from './artist.entity';
 import { Album } from './album.entity';
 import { Track } from './track.entity';

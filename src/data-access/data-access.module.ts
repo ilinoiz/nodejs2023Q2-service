@@ -14,7 +14,6 @@ import { DataBaseOptions } from './ormconfig';
     TypeOrmModule.forRoot({
       ...DataBaseOptions,
       entities: [User, Artist, Favorite, Track, Album],
-      synchronize: true,
       logging: false,
     }),
   ],

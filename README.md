@@ -15,7 +15,7 @@ cd nodejs2023Q2-service
 ## Checkout to develop branch
 
 ```
-git checkout develop
+git checkout develop-part2
 ```
 
 ## Installing NPM modules
@@ -28,12 +28,52 @@ npm install
 
 **create .env file and copy-paste lines from .env.example file**
 
-Port is 4000 by default. You can change to another it in .env file
+Port is 4000 by default. You can change to another one in .env file
 
-## Running application
+## Running application with docker
+
+To run docker use
 
 ```
-npm start
+docker network create home-library-service
+```
+
+then start application
+
+```
+npm run start:docker
+```
+
+and finally apply migration in another terminal (in parallel with docker)
+
+```
+npm run db:migrations:apply
+```
+
+now you can use app (running tests, call from postman, execute database, etc.)
+
+## Running script for vulnerabilities scanning
+
+About Docker scout: https://github.com/docker/scout-cli
+
+You have to install docker scout from link: https://github.com/docker/scout-cli/releases/tag/v0.22.3 (docker-scout_0.22.3_windows_amd64.zip - for **windows**)
+
+Unpack zip file and copy it in your local CLI plugin directory!!!!!
+
+`%USERPROFILE%\.docker\cli-plugins` on Windows (for me it's C:\Users\Username\\.docker\cli-plugins)
+
+then run:
+
+for api
+
+```
+npm run vulnerability-scan:api
+```
+
+for db
+
+```
+npm run vulnerability-scan:db
 ```
 
 ## Testing

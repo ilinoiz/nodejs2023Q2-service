@@ -6,7 +6,6 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-user.dto';
 import { User } from '../data-access/entities/user.entity';
-import { v4 as uuidv4 } from 'uuid';
 import { CreateUserResponseDto as UserResponseDto } from './dto/user-response.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -43,7 +42,10 @@ export class UsersService {
     return this.mapToResponseDto(user);
   }
 
-  async update(id: string, updateUserDto: UpdatePasswordDto): Promise<UserResponseDto> {
+  async update(
+    id: string,
+    updateUserDto: UpdatePasswordDto,
+  ): Promise<UserResponseDto> {
     const user = await this.usersRepository.findOneBy({ id });
     if (!user) {
       throw new NotFoundException();

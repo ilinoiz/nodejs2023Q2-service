@@ -3,14 +3,14 @@ import { Column, PrimaryGeneratedColumn, Entity } from 'typeorm';
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
-  @Column("text")
+  @Column('text')
   login: string;
-  @Column("text")
+  @Column('text')
   password: string;
-  @Column("smallint")
+  @Column('smallint')
   version: number;
-  @Column("timestamp without time zone")
+  @Column('timestamp without time zone')
   createdAt: string;
-  @Column("timestamp without time zone")
+  @Column('timestamp without time zone')
   updatedAt: string;
 }

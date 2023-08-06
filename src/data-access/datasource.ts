@@ -4,7 +4,6 @@ import { DataBaseOptions } from './ormconfig';
 export const AppDataSource = new DataSource({
   ...DataBaseOptions,
   entities: ['src/data-access/entities/*.ts'],
-  synchronize: true,
   migrations: ['src/data-access/migrations/*.ts'],
 });
 
