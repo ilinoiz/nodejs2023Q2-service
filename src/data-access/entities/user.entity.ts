@@ -1,8 +1,16 @@
+import { Column, PrimaryGeneratedColumn, Entity } from 'typeorm';
+@Entity()
 export class User {
-  id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id?: string;
+  @Column('text')
   login: string;
+  @Column('text')
   password: string;
+  @Column('smallint')
   version: number;
-  createdAt: number;
-  updatedAt: number;
+  @Column('timestamp without time zone')
+  createdAt: string;
+  @Column('timestamp without time zone')
+  updatedAt: string;
 }

@@ -1,0 +1,44 @@
+version: '3'
+services:
+  api:
+    container_name: api
+    build:
+      context: ./
+      dockerfile: Dockerfile.api
+    restart: on-failure
+    image: home-library-service-api:latest
+    ports:
+      - '4000:4000'
+    depends_on:
+      - db
+    networks:
+      - home-library-service
+    volumes:
+      - ./src:/app/src
+    environment:
+      - DB_HOST=db
+  db:
+    container_name: database
+    build:
+      context: ./
+      dockerfile: Dockerfile.db
+    image: home-library-service-db:latest
+    ports:
+      - '5432:5432'
+    networks:
+      - home-library-service
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - postgres_logs:/var/log/postgresql
+    restart: on-failure
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+
+networks:
+  home-library-service:
+
+volumes:
+  postgres_data:
+  postgres_logs:

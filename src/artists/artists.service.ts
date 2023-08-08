@@ -2,57 +2,71 @@ import { Injectable } from '@nestjs/common';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
 import { NotFoundException } from '@nestjs/common/exceptions';
-import { v4 as uuidv4 } from 'uuid';
-import { ArtistsRepository } from 'src/data-access/repositories/artists.repository';
-import { FavoritesRepository } from 'src/data-access/repositories/favorites.repository';
-import { TracksRepository } from 'src/data-access/repositories/tracks.repository';
-import { AlbumsRepository } from 'src/data-access/repositories/albums.repository';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Artist } from 'src/data-access/entities/artist.entity';
+import { Repository } from 'typeorm';
+import { ArtistResponseDto } from './dto/artist-response.dto';
 
 @Injectable()
 export class ArtistsService {
   constructor(
-    private readonly artistsRepository: ArtistsRepository,
-    private readonly favoritesRepository: FavoritesRepository,
-    private readonly tracksRepository: TracksRepository,
-    private readonly albumsRepository: AlbumsRepository,
+    @InjectRepository(Artist)
+    private artistsRepository: Repository<Artist>,
   ) {}
 
-  create(createArtistDto: CreateArtistDto) {
-    const newArtist = { ...createArtistDto, id: uuidv4() };
-    this.artistsRepository.create(newArtist);
-    return newArtist;
+  async create(createArtistDto: CreateArtistDto): Promise<ArtistResponseDto> {
+    const result = await this.artistsRepository.insert(createArtistDto);
+    const responsedDto: ArtistResponseDto = {
+      ...createArtistDto,
+      id: result.raw[0].id,
+    };
+    return responsedDto;
   }
 
-  getAll() {
-    return this.artistsRepository.getAll();
+  async getAll(): Promise<ArtistResponseDto[]> {
+    const artists = await this.artistsRepository.find();
+    return artists.map((artist) => this.mapToResponseDto(artist));
   }
 
-  getById(id: string) {
-    const artist = this.artistsRepository.getById(id);
+  async getById(id: string): Promise<ArtistResponseDto> {
+    const artist = await this.artistsRepository.findOneBy({ id });
     if (!artist) {
       throw new NotFoundException();
     }
-    return artist;
+    return this.mapToResponseDto(artist);
   }
 
-  update(id: string, updateArtistDto: UpdateArtistDto) {
-    const artist = this.artistsRepository.getById(id);
+  async update(
+    id: string,
+    updateArtistDto: UpdateArtistDto,
+  ): Promise<ArtistResponseDto> {
+    const artist = await this.artistsRepository.findOneBy({ id });
     if (!artist) {
       throw new NotFoundException();
     }
     const newArtist = { ...artist, ...updateArtistDto };
-    this.artistsRepository.update(id, newArtist);
-    return newArtist;
+    await this.artistsRepository.update(id, newArtist);
+    return this.mapToResponseDto(newArtist);
   }
 
-  delete(id: string) {
-    const artist = this.artistsRepository.getById(id);
+  async delete(id: string): Promise<void> {
+    const artist = await this.artistsRepository.findOneBy({ id });
     if (!artist) {
       throw new NotFoundException();
     }
-    this.artistsRepository.delete(id);
-    this.favoritesRepository.deleteArtist(id);
-    this.albumsRepository.deleteArtist(id);
-    this.tracksRepository.deleteArtist(id);
+    await this.artistsRepository.delete(id);
   }
+
+  private mapToResponseDto = (
+    artist: Artist,
+    id?: string,
+  ): ArtistResponseDto => {
+    const { grammy, name } = artist;
+    const mappedArtist: ArtistResponseDto = {
+      id: id || artist.id,
+      grammy,
+      name,
+    };
+    return mappedArtist;
+  };
 }
