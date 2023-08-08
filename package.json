@@ -20,12 +20,11 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "typeorm": "typeorm-ts-node-esm",
-    "db:migrations:apply" :"npm run typeorm migration:run -- -d src/data-access/datasource.ts",
-    "db:migrations:generate" :"npm run typeorm migration:generate -- src/data-access/migrations/InitialMigration -d src/data-access/datasource.ts",
-    "start:docker" : "docker compose up",
-    "vulnerability-scan:api" : "docker scout cves home-library-service-api:latest",
-    "vulnerability-scan:db" : "docker scout cves home-library-service-db:latest"
-
+    "db:migrations:apply": "npm run typeorm migration:run -- -d src/data-access/datasource.ts",
+    "db:migrations:generate": "npm run typeorm migration:generate -- src/data-access/migrations/InitialMigration -d src/data-access/datasource.ts",
+    "start:docker": "docker compose up",
+    "vulnerability-scan:api": "docker scout cves home-library-service-api:latest",
+    "vulnerability-scan:db": "docker scout cves home-library-service-db:latest"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
@@ -35,7 +34,7 @@
     "@nestjs/mapped-types": "^1.0.1",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/typeorm": "^10.0.0",
-    "bcrypt": "^5.0.1",
+    "bcrypt": "^5.1.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "dotenv": "^16.3.1",

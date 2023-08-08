@@ -9,6 +9,7 @@ import { User } from '../data-access/entities/user.entity';
 import { CreateUserResponseDto as UserResponseDto } from './dto/user-response.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -25,6 +26,7 @@ export class UsersService {
       createdAt: dateNow,
       updatedAt: dateNow,
     };
+    user.password = await this.hashPassword(user.password);
     const result = await this.usersRepository.insert(user);
     return this.mapToResponseDto(user, result.raw[0].id);
   }
@@ -50,12 +52,16 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException();
     }
-    if (user.password !== updateUserDto.oldPassword) {
+    const isSamePassword = await bcrypt.compare(
+      updateUserDto.oldPassword,
+      user.password,
+    );
+    if (!isSamePassword) {
       throw new ForbiddenException();
     }
 
     const dateNow = new Date().toISOString();
-    user.password = updateUserDto.newPassword;
+    user.password = await this.hashPassword(updateUserDto.newPassword);
     user.version = user.version + 1;
     user.updatedAt = dateNow;
     await this.usersRepository.update(id, user);
@@ -82,4 +88,8 @@ export class UsersService {
     };
     return mappedUser;
   };
+
+  async hashPassword(password: string): Promise<string> {
+    return await bcrypt.hash(password, +process.env.CRYPT_SALT);
+  }
 }
