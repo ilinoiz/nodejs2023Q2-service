@@ -10,7 +10,6 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { AuthResponseDto } from './dto/auth.reponse.dto';
 import * as bcrypt from 'bcrypt';
-import { RefreshToken } from 'src/data-access/entities/refreshToken.entity';
 import { RefreshRequestDto } from './dto/refresh-auth.dto';
 
 @Injectable()
@@ -18,13 +17,14 @@ export class AuthService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-    @InjectRepository(RefreshToken)
-    private refreshTokenRepository: Repository<RefreshToken>,
     private jwtService: JwtService,
   ) {}
 
   async signIn(authDto: AuthDto): Promise<AuthResponseDto> {
     const user = await this.usersRepository.findOneBy({ login: authDto.login });
+    if (!user) {
+      throw new ForbiddenException();
+    }
     const isSamePassword = await bcrypt.compare(
       authDto.password,
       user?.password,
@@ -32,53 +32,42 @@ export class AuthService {
     if (!isSamePassword) {
       throw new ForbiddenException();
     }
-    const token = await this.createAccessToken(user);
-    const refreshToken = await this.createRefreshToken(user);
-    const decodedToken = this.jwtService.decode(token);
-    return {
-      accessToken: token,
-      expiresIn: Math.ceil(+decodedToken['exp'] - Date.now() / 1000),
-      tokenType: 'Bearer',
-      refreshToken,
-    };
+    return await this.GenerateTokens(user);
   }
 
   async refresh(refreshDto: RefreshRequestDto) {
     if (!refreshDto.refreshToken) {
       throw new UnauthorizedException();
     }
+    let payload: any;
     try {
-      const payload = await this.jwtService.verifyAsync(
-        refreshDto.refreshToken,
-        {
-          secret: process.env.JWT_SECRET_KEY,
-        },
-      );
-      const refreshTokenDb = await this.refreshTokenRepository.findOneBy({
-        token: refreshDto.refreshToken,
+      payload = await this.jwtService.verifyAsync(refreshDto.refreshToken, {
+        secret: process.env.JWT_SECRET_KEY,
       });
-      if (!refreshTokenDb) {
-        throw new ForbiddenException();
-      }
-      const user = await this.usersRepository.findOneBy({
-        refreshTokenId: refreshTokenDb.id,
-      });
-      if (!user) {
-        throw new ForbiddenException();
-      }
-      await this.refreshTokenRepository.delete(refreshTokenDb.id);
-      const token = await this.createAccessToken(user);
-      const refreshToken = await this.createRefreshToken(user);
-      const decodedToken = this.jwtService.decode(token);
-      return {
-        accessToken: token,
-        expiresIn: Math.ceil(+decodedToken['exp'] - Date.now() / 1000),
-        tokenType: 'Bearer',
-        refreshToken,
-      };
     } catch (error) {
       throw new ForbiddenException();
     }
+    const user = await this.usersRepository.findOneBy({
+      id: payload['sub'],
+    });
+
+    if (!user) {
+      throw new ForbiddenException();
+    }
+    return await this.GenerateTokens(user);
+  }
+
+  private async GenerateTokens(user: User) {
+    const token = await this.createAccessToken(user);
+    const refreshToken = await this.createRefreshToken(user);
+    const decodedToken = this.jwtService.decode(token);
+
+    return {
+      accessToken: token,
+      expiresIn: Math.ceil(+decodedToken['exp'] - Date.now() / 1000),
+      tokenType: 'Bearer',
+      refreshToken,
+    };
   }
 
   private async createAccessToken(user: User): Promise<string> {
@@ -91,24 +80,22 @@ export class AuthService {
 
   private async createRefreshToken(user: User): Promise<string> {
     const payload = { sub: user.id, username: user.login };
+
     const token = await this.jwtService.signAsync(payload, {
       expiresIn: process.env.TOKEN_REFRESH_EXPIRE_TIME,
     });
+
     const decodedToken = this.jwtService.decode(token);
-    const refreshToken = {
-      expirationDate: new Date(+decodedToken['exp'] * 1000).toISOString(),
-      token,
-    };
-    const result = await this.refreshTokenRepository.insert(refreshToken);
 
-    this.addRefreshToken(user, result.raw[0].id);
-    return token;
-  }
-
-  public async addRefreshToken(user: User, tokenId: string): Promise<void> {
-    user.refreshTokenId = tokenId;
+    user.refreshToken = token;
+    user.tokenExpirationDate = new Date(
+      decodedToken['exp'] * 1000,
+    ).toISOString();
     user.version = user.version + 1;
     user.updatedAt = new Date().toISOString();
+
     await this.usersRepository.update(user.id, user);
+
+    return token;
   }
 }

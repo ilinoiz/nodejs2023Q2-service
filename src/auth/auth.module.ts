@@ -7,7 +7,6 @@ import { User } from 'src/data-access/entities/user.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthGuard } from './auth.guard';
 import { APP_GUARD } from '@nestjs/core';
-import { RefreshToken } from 'src/data-access/entities/refreshToken.entity';
 import { DataAccessModule } from 'src/data-access/data-access.module';
 
 @Module({
@@ -16,7 +15,7 @@ import { DataAccessModule } from 'src/data-access/data-access.module';
   imports: [
     UsersModule,
     DataAccessModule,
-    TypeOrmModule.forFeature([User, RefreshToken]),
+    TypeOrmModule.forFeature([User]),
     JwtModule.register({
       secret: process.env.JWT_SECRET_KEY,
     }),
