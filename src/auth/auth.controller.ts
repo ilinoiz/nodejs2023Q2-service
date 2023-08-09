@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { AuthDto } from './dto/create-auth.dto';
 import { UsersService } from 'src/users/users.service';
 import { Public } from './public.decorator';
+import { RefreshRequestDto } from './dto/refresh-auth.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -21,5 +22,11 @@ export class AuthController {
   @Post('/login')
   async login(@Body() authDto: AuthDto) {
     return this.authService.signIn(authDto);
+  }
+
+  @Public()
+  @Post('/refresh')
+  async refresh(@Body() refreshDto: RefreshRequestDto) {
+    return this.authService.refresh(refreshDto);
   }
 }

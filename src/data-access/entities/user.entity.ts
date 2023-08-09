@@ -1,4 +1,11 @@
-import { Column, PrimaryGeneratedColumn, Entity } from 'typeorm';
+import {
+  Column,
+  PrimaryGeneratedColumn,
+  Entity,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { RefreshToken } from './refreshToken.entity';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
@@ -13,4 +20,11 @@ export class User {
   createdAt: string;
   @Column('timestamp without time zone')
   updatedAt: string;
+  @Column({ type: 'text', nullable: true })
+  refreshTokenId?: string | null;
+  @ManyToOne(() => RefreshToken, (refreshToken) => refreshToken.users, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'refreshTokenId' })
+  refreshToken?: RefreshToken;
 }

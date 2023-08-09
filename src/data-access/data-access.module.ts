@@ -7,13 +7,14 @@ import { Track } from './entities/track.entity';
 import { Album } from './entities/album.entity';
 import { ConfigModule } from '@nestjs/config';
 import { DataBaseOptions } from './ormconfig';
+import { RefreshToken } from './entities/refreshToken.entity';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       ...DataBaseOptions,
-      entities: [User, Artist, Favorite, Track, Album],
+      entities: [User, Artist, Favorite, Track, Album, RefreshToken],
       logging: false,
     }),
   ],
