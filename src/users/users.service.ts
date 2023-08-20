@@ -9,7 +9,7 @@ import { User } from '../data-access/entities/user.entity';
 import { CreateUserResponseDto as UserResponseDto } from './dto/user-response.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UsersService {

@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common/exceptions';
 import { JwtService } from '@nestjs/jwt';
 import { AuthResponseDto } from './dto/auth.reponse.dto';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { RefreshRequestDto } from './dto/refresh-auth.dto';
 
 @Injectable()
