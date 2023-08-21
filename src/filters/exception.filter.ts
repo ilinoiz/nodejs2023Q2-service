@@ -33,23 +33,21 @@ export class AllExceptionFilter implements ExceptionFilter {
   }
 
   private logError(status: number, exception: any, req: Request) {
-    this.myLogger.log(
-      `Incoming request: Method = ${req.method} URL = ${
-        req.url
-      }, Body = ${JSON.stringify(req.body)}, QueryString = ${JSON.stringify(
-        req.query,
-      )} Response: statusCode = ${status}`,
-    );
+    // this.myLogger.log(
+    //   `Incoming request: Method = ${req.method} URL = ${
+    //     req.url
+    //   }, Body = ${JSON.stringify(req.body)}, QueryString = ${JSON.stringify(
+    //     req.query,
+    //   )} Response: statusCode = ${status}`,
+    // );
 
     if (status.toString().startsWith('4')) {
       this.myLogger.warn(
-        `Not successful request. Exception = ${JSON.stringify(exception)}`,
+        `Not successful request. Message = ${exception.message}.`,
       );
     } else if (status.toString().startsWith('5')) {
       this.myLogger.error(
-        'Error occurred during request processing.',
-        exception.stack,
-        exception.message,
+        `Error occurred during request processing.  Message = ${exception.message}. Stack = ${exception.stack}`,
       );
     }
   }

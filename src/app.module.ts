@@ -1,4 +1,9 @@
-import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
@@ -20,7 +25,7 @@ import { LoggerModule } from './logging/logger.module';
     AlbumsModule,
     FavoritesModule,
     AuthModule,
-    LoggerModule
+    LoggerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

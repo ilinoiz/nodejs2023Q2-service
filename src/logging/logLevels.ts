@@ -1,1 +1,7 @@
-export const allLogLevels: string[] = ['error', 'warn', 'log', 'debug', 'verbose'];
+export const allLogLevels: string[] = [
+  'error',
+  'warn',
+  'log',
+  'debug',
+  'verbose',
+];

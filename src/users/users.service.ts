@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import {
   ForbiddenException,
   NotFoundException,
@@ -10,14 +10,13 @@ import { CreateUserResponseDto as UserResponseDto } from './dto/user-response.dt
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
-import { MyLogger } from 'src/logging/my-logger.service';
+// import { MyLogger } from 'src/logging/my-logger.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
-    private usersRepository: Repository<User>,
-    private myLogger: MyLogger
+    private usersRepository: Repository<User>, // private myLogger: MyLogger,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<UserResponseDto> {
@@ -34,12 +33,11 @@ export class UsersService {
   }
 
   async getAll(): Promise<UserResponseDto[]> {
-    // this.myLogger.error('Doing something...');
-    this.myLogger.error('test error');
-    this.myLogger.debug('test debug');
-    this.myLogger.log('test log');
-    this.myLogger.warn('test warn');
-    this.myLogger.verbose('test verbose');
+    // this.myLogger.error('test error');
+    // this.myLogger.debug('test debug');
+    // this.myLogger.log('test log');
+    // this.myLogger.warn('test warn');
+    // this.myLogger.verbose('test verbose');
     const users = await this.usersRepository.find();
     return users.map((user) => this.mapToResponseDto(user));
   }

@@ -6,7 +6,6 @@ import { MyLogger } from './my-logger.service';
 export class LoggerMiddleware implements NestMiddleware {
   constructor(private myLogger: MyLogger) {}
   use(req: Request, res: Response, next: NextFunction) {
-    
     res.on('finish', () => {
       this.myLogger.log(
         `Incoming request: Method = ${req.method} URL = ${
