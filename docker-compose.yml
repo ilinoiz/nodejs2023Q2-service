@@ -1,22 +1,22 @@
 version: '3'
 services:
-  # api:
-  #   container_name: api
-  #   build:
-  #     context: ./
-  #     dockerfile: Dockerfile.api
-  #   restart: on-failure
-  #   image: home-library-service-api:latest
-  #   ports:
-  #     - '4000:4000'
-  #   depends_on:
-  #     - db
-  #   networks:
-  #     - home-library-service
-  #   volumes:
-  #     - ./src:/app/src
-  #   environment:
-  #     - DB_HOST=db
+  api:
+    container_name: api
+    build:
+      context: ./
+      dockerfile: Dockerfile.api
+    restart: on-failure
+    image: home-library-service-api:latest
+    ports:
+      - '4000:4000'
+    depends_on:
+      - db
+    networks:
+      - home-library-service
+    volumes:
+      - ./src:/app/src
+    environment:
+      - DB_HOST=db
   db:
     container_name: database
     build:

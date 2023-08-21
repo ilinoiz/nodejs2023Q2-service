@@ -14,7 +14,7 @@ export class FileLoggerService {
   errorCurrentLogStream: fs.WriteStream | null = null;
 
   constructor() {
-    this.fileMaxSize = +process.env.LOG_FILE_MAX_SIZE * 1024 * 1024;
+    this.fileMaxSize = +process.env.LOG_FILE_MAX_SIZE_MB * 1024 * 1024;
     this.logDirectory = 'logs';
     this.createFolder(path.join(process.cwd(), this.logDirectory));
     this.createDefaultLogFile();
@@ -42,33 +42,24 @@ export class FileLoggerService {
   }
 
   private createDefaultLogFile() {
-    const reg = /[:\.]/g;
-    const fileTimestamp = new Date().toISOString().replace(reg, '_');
-    const logFilename = `log_${fileTimestamp}`;
-    const logPath = path.join(process.cwd(), this.logDirectory, logFilename);
-    this.defaultCurrentLogStream = fs.createWriteStream(logPath, {
-      flags: 'a',
-    });
-
-    this.defaultCurrentLogStream.on('error', function (err) {
-      console.log('ERROR:' + err);
-    });
-
+    this.defaultCurrentLogStream = this.createStream('log');
     this.defaultCurrentLogFileSize = 0;
   }
 
   private createErrorLogFile() {
-    const reg = /[:\.]/g;
-    const fileTimestamp = new Date().toISOString().replace(reg, '_');
-    const logFilename = `errors_log_${fileTimestamp}`;
-    const logPath = path.join(process.cwd(), this.logDirectory, logFilename);
-    this.errorCurrentLogStream = fs.createWriteStream(logPath, { flags: 'a' });
-
-    this.errorCurrentLogStream.on('error', function (err) {
-      console.log('ERROR:' + err);
-    });
-
+    this.errorCurrentLogStream = this.createStream('errors_log');
     this.errorCurrentLogFileSize = 0;
+  }
+
+  private createStream(fileName: string) {
+    const fileNameEscapeRegexp = /[:\.]/g;
+    const fileTimestamp = new Date()
+      .toISOString()
+      .replace(fileNameEscapeRegexp, '_');
+    const logFilename = `${fileName}_${fileTimestamp}`;
+    const logPath = path.join(process.cwd(), this.logDirectory, logFilename);
+
+    return fs.createWriteStream(logPath, { flags: 'a' });
   }
 
   private log(message: string, logLevel: LogLevel) {
@@ -78,14 +69,14 @@ export class FileLoggerService {
     }`;
 
     if (logLevel === 'error') {
-      if (this.errorCurrentLogFileSize > this.fileMaxSize) {
+      if (this.errorCurrentLogFileSize >= this.fileMaxSize) {
         this.errorCurrentLogStream.end();
         this.createErrorLogFile();
       }
       this.errorCurrentLogStream.write(template);
       this.errorCurrentLogFileSize += Buffer.byteLength(template, 'utf8');
     } else {
-      if (this.defaultCurrentLogFileSize > this.fileMaxSize) {
+      if (this.defaultCurrentLogFileSize >= this.fileMaxSize) {
         this.defaultCurrentLogStream.end();
         this.createDefaultLogFile();
       }

@@ -15,7 +15,7 @@ cd nodejs2023Q2-service
 ## Checkout to develop branch
 
 ```
-git checkout develop-part2
+git checkout develop-part3
 ```
 
 ## Installing NPM modules
@@ -76,21 +76,22 @@ for db
 npm run vulnerability-scan:db
 ```
 
+## Logging
+
+Log level by default is **verbose**, you can change it in .env file (LOG_LEVEL variable).  
+If you can see all log levels in console - you can uncomment lines 31-35 in main.js (this is only for easy testing all log levels).
+
+Max size for the log file is **1MB**. You can change it (in MBs) in .env file (LOG_FILE_MAX_SIZE_MB variable).
+
+By default application logs is situated in **/logs** folder. Logs inside docker container has path **/app/logs** in files (make sure your Docker Desktop has the latest version 4.22)
+
+## Postman collection
+
+You can check application using postman collection in **/doc/Home_library_service_with_auth.postman_collection.json** path
+
 ## Testing
 
 After application **running** open new terminal and enter:
-
-To run all tests without authorization
-
-```
-npm run test
-```
-
-To run only one of all test suites
-
-```
-npm run test -- <path to suite>
-```
 
 To run all test with authorization
 
